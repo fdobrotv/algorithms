@@ -44,14 +44,18 @@ class Check {
 
         Solution.main(args);
 
-        String expected = """
+        String expected = normalize("""
                 2 
                 2 
                 2 3 
-                2 3 5""".replaceAll("\\n|\\r\\n", System.getProperty("line.separator"));
+                2 3 5""");
 
-        String actual = outputStreamCaptor.toString().replaceAll("\\n|\\r\\n", System.getProperty("line.separator")).trim();
+        String actual = normalize(outputStreamCaptor.toString());
 
         Assertions.assertEquals(expected, actual);
+    }
+
+    private String normalize(String s) {
+        return s.replaceAll("\\n|\\r\\n", System.getProperty("line.separator")).trim();
     }
 }

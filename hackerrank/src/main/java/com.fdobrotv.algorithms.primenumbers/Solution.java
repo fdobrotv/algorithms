@@ -3,6 +3,7 @@ package com.fdobrotv.algorithms.primenumbers;
 import java.io.*;
 import java.util.*;
 import java.lang.reflect.*;
+import java.util.stream.Collectors;
 
 import static java.lang.System.*;
 
@@ -20,10 +21,15 @@ class Prime {
             }
         }
 
-        for (Integer integer : result) {
-            out.print(integer + " ");
-        }
-        out.println();
+        printResults(result);
+    }
+
+    private void printResults(List<Integer> result) {
+        String preparedResult = result
+                                .stream()
+                                .map(Object::toString)
+                                .collect(Collectors.joining(" "));
+        out.println(preparedResult);
     }
 
     private boolean isPrime(int num) {
