@@ -54,7 +54,7 @@ public class Solution {
             5""";
 
     //JavaDoc: Closing a {@code ByteArrayInputStream} has no effect.
-    private static final InputStream in = new ByteArrayInputStream(testValues.getBytes());
+//    private static final InputStream in = new ByteArrayInputStream(testValues.getBytes());
 
     public static void main(String[] args) {
         try{

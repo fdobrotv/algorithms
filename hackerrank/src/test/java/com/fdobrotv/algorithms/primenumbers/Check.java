@@ -5,18 +5,17 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.stream.IntStream;
 
 
 class Check {
 
     private final PrintStream standardOut = System.out;
     private final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
+    private final InputStream standardIn = System.in;
 
     @BeforeEach
     public void setUp() {
@@ -26,6 +25,7 @@ class Check {
     @AfterEach
     public void tearDown() {
         System.setOut(standardOut);
+        System.setIn(standardIn);
     }
 
     @Test
@@ -37,10 +37,19 @@ class Check {
 
         ArrayList<String> fromScanner = new ArrayList<>();
         while (scanner.hasNext()) {
-            fromScanner.add(scanner.next());
+            fromScanner.add(scanner.next().trim());
         }
+
         scanner.close();
+        inputStream.close();
+
         String[] args = fromScanner.toArray(new String[0]);
+
+        //Write to the standard out
+        String string = String.join("\n", args);
+        InputStream stringStream = new ByteArrayInputStream(string.getBytes());
+        System.setIn(stringStream);
+        stringStream.close();
 
         Solution.main(args);
 
@@ -49,6 +58,30 @@ class Check {
                 2 
                 2 3 
                 2 3 5""");
+
+        String actual = normalize(outputStreamCaptor.toString());
+
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void checkForPrimeNumbersFromGeneration() throws IOException {
+        String[] args = IntStream.rangeClosed(19, 30)
+                .boxed().map(Object::toString).toArray(String[]::new);
+
+        //Write to the standard out
+        String string = String.join("\n", args);
+        InputStream stringStream = new ByteArrayInputStream(string.getBytes());
+        System.setIn(stringStream);
+        stringStream.close();
+
+        Solution.main(args);
+
+        String expected = normalize("""
+        19 
+        19 
+        19 
+        19 23""");
 
         String actual = normalize(outputStreamCaptor.toString());
 
