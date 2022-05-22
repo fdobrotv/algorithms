@@ -1,5 +1,6 @@
-package com.fdobrotv.algorithms.primenumbers;
+package com.fdobrotv.algorithms.fizzbuzz;
 
+import com.fdobrotv.algorithms.primenumbers.Solution;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,7 +31,7 @@ class Check {
 
     @Test
     public void checkForPrimeNumbers() throws IOException {
-        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("primenumbers/inputArgs.txt");
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("fizzbuzz/inputArgs.txt");
 
         assert inputStream != null;
         Scanner scanner = new Scanner(inputStream).useDelimiter("\n");
@@ -51,7 +52,7 @@ class Check {
         System.setIn(stringStream);
         stringStream.close();
 
-        Solution.main(args);
+        com.fdobrotv.algorithms.primenumbers.Solution.main(args);
 
         String expected = normalize("""
                 2 

@@ -1,4 +1,4 @@
-package com.fdobrotv.algorithms.primenumbers;
+package com.fdobrotv.algorithms.strings.permutation;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -6,9 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.stream.IntStream;
+import java.util.Arrays;
 
 
 class Check {
@@ -29,21 +27,8 @@ class Check {
     }
 
     @Test
-    public void checkForPrimeNumbers() throws IOException {
-        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("primenumbers/inputArgs.txt");
-
-        assert inputStream != null;
-        Scanner scanner = new Scanner(inputStream).useDelimiter("\n");
-
-        ArrayList<String> fromScanner = new ArrayList<>();
-        while (scanner.hasNext()) {
-            fromScanner.add(scanner.next().trim());
-        }
-
-        scanner.close();
-        inputStream.close();
-
-        String[] args = fromScanner.toArray(new String[0]);
+    public void checkForInclusion() throws IOException {
+        String[] args = Arrays.asList("ab", "eidbaooo").toArray(new String[0]);
 
         //Write to the standard out
         String string = String.join("\n", args);
@@ -53,11 +38,7 @@ class Check {
 
         Solution.main(args);
 
-        String expected = normalize("""
-                2 
-                2 
-                2 3 
-                2 3 5""");
+        String expected = normalize("True");
 
         String actual = normalize(outputStreamCaptor.toString());
 
@@ -65,9 +46,8 @@ class Check {
     }
 
     @Test
-    public void checkForPrimeNumbersFromGeneration() throws IOException {
-        String[] args = IntStream.rangeClosed(19, 30)
-                .boxed().map(Object::toString).toArray(String[]::new);
+    public void checkForNonInclusion() throws IOException {
+        String[] args = Arrays.asList("ab", "eidboaoo").toArray(new String[0]);
 
         //Write to the standard out
         String string = String.join("\n", args);
@@ -77,11 +57,26 @@ class Check {
 
         Solution.main(args);
 
-        String expected = normalize("""
-        19 
-        19 
-        19 
-        19 23""");
+        String expected = normalize("False");
+
+        String actual = normalize(outputStreamCaptor.toString());
+
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void checkForInclusionLong() throws IOException {
+        String[] args = Arrays.asList("prosperity", "properties").toArray(new String[0]);
+
+        //Write to the standard out
+        String string = String.join("\n", args);
+        InputStream stringStream = new ByteArrayInputStream(string.getBytes());
+        System.setIn(stringStream);
+        stringStream.close();
+
+        Solution.main(args);
+
+        String expected = normalize("False");
 
         String actual = normalize(outputStreamCaptor.toString());
 
@@ -89,6 +84,6 @@ class Check {
     }
 
     private String normalize(String s) {
-        return s.replaceAll("\\n|\\r\\n", System.getProperty("line.separator")).trim();
+        return s.replaceAll("\\n|\\r\\n", System.getProperty("line.separator")).trim().toLowerCase();
     }
 }

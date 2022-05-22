@@ -1,5 +1,6 @@
-package com.fdobrotv.algorithms.primenumbers;
+package com.fdobrotv.algorithms.two_d_array_ds;
 
+import com.fdobrotv.algorithms.primenumbers.Solution;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,7 +31,8 @@ class Check {
 
     @Test
     public void checkForPrimeNumbers() throws IOException {
-        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("primenumbers/inputArgs.txt");
+        ClassLoader classLoader = ClassLoader.getSystemClassLoader();
+        InputStream inputStream = classLoader.getResourceAsStream("two_d_array_ds/inputArgs7.txt");
 
         assert inputStream != null;
         Scanner scanner = new Scanner(inputStream).useDelimiter("\n");
@@ -51,17 +53,25 @@ class Check {
         System.setIn(stringStream);
         stringStream.close();
 
-        Solution.main(args);
+        com.fdobrotv.algorithms.two_d_array_ds.Solution.main(args);
 
-        String expected = normalize("""
-                2 
-                2 
-                2 3 
-                2 3 5""");
+        inputStream = classLoader.getResourceAsStream("two_d_array_ds/output7.txt");
+        assert inputStream != null;
+
+        scanner = new Scanner(inputStream).useDelimiter("\n");
+
+        String expected = "0";
+
+        if (scanner.hasNext()) {
+            expected = scanner.next();
+        }
 
         String actual = normalize(outputStreamCaptor.toString());
 
-        Assertions.assertEquals(expected, actual);
+        Assertions.assertEquals(Integer.parseInt(expected), Integer.parseInt(actual));
+
+        scanner.close();
+        inputStream.close();
     }
 
     @Test
