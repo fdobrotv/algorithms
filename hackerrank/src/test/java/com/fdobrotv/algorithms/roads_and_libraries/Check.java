@@ -26,7 +26,6 @@ class Check {
     private final InputStream standardIn = System.in;
     private final static String resourceDirName = "roads_and_libraries";
     private final ClassLoader classLoader = ClassLoader.getSystemClassLoader();
-    private final String OUTPUT_PATH = System.getenv("OUTPUT_PATH");
 
     @SystemStub
     private EnvironmentVariables environmentVariables;
@@ -47,8 +46,6 @@ class Check {
         environmentVariables.set("OUTPUT_PATH", "test.txt");
 
         Assertions.assertEquals(System.getenv("OUTPUT_PATH"), "test.txt");
-
-        File root = new File(resourceDirName);
 
         final List<String> resourceFiles = getResourceFiles(resourceDirName);
 
